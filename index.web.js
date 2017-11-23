@@ -9,4 +9,4 @@ AppRegistry.runApplication('newRNBundle', {
   rootTag: app
 })
 
-module.exports = Root;
+// module.exports = Root;
