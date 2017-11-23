@@ -1,0 +1,29 @@
+{
+	"name": "newRNBundle",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest",
+		"androidBundle": "react-native bundle --platform android --dev true --entry-file index.js --bundle-output ./output/android/index.android.bundle",
+		"androidUnbundle": "react-native unbundle --platform android --dev true --entry-file index.js --bundle-output ./output/android/index.android.bundle",
+		"iosBundle": "react-native bundle --platform ios --dev true --entry-file index.js --bundle-output ./output/ios/index.ios.bundle",
+		"iosUnbundle": "react-native unbundle --platform ios --dev true --entry-file index.js --bundle-output ./output/ios/index.ios.bundle",
+		"concatJs": "node concatJs.js",
+		"webDev": "node web/start-dev-server",
+		"webBundle": "NODE_ENV=production webpack --config web/webpack.config.js --colors"
+	},
+	"dependencies": {
+		"react": "16.0.0",
+		"react-native": "0.50.3"
+	},
+	"devDependencies": {
+		"babel-jest": "21.2.0",
+		"babel-preset-react-native": "4.0.0",
+		"jest": "21.2.1",
+		"react-test-renderer": "16.0.0"
+	},
+	"jest": {
+		"preset": "react-native"
+	}
+}
