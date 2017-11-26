@@ -20,15 +20,15 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 })
 
-class testApp extends Component {
+class Animations extends Component {
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to testApp Native!
+          Welcome to Animations Native!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit testApp.js
+          To get started, edit Animations.js
         </Text>
         <Text style={styles.instructions}>
           {instructions}
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = testApp;
+module.exports = Animations;
