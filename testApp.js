@@ -11,7 +11,7 @@ import {
   View
 } from 'react-native';
 import React, { Component } from 'react';
-// import underscore from 'underscore';
+import Loading from './common/Loading/Loading';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -21,6 +21,17 @@ const instructions = Platform.select({
 })
 
 class testApp extends Component {
+  constructor(props){
+      super(props);
+      this.state=({
+          loadingstatus: true
+      })
+  }
+  componentDidMount(){
+    setTimeout(function(){
+      this.setState({loadingstatus: false})
+    }, 2000)
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -33,6 +44,11 @@ class testApp extends Component {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+        {
+          this.state.loadingstatus ? 
+          null :
+          <Loading /> 
+        }
       </View>
     );
   }

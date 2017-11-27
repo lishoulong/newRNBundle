@@ -11,7 +11,7 @@ import {
   View
 } from 'react-native';
 import React, { Component } from 'react';
-// import underscore from 'underscore';
+import _ from 'underscore';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -21,9 +21,14 @@ const instructions = Platform.select({
 })
 
 class Animations extends Component {
+  gotoTestapp = () => {
+    console.log('gotoTestapp----------');
+    const isContain = _.contains([1, 2, 3], 3);
+    console.log('isContain', isContain);
+  }
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.container} onPress={this.gotoTestapp}>
         <Text style={styles.welcome}>
           Welcome to Animations Native!
         </Text>
