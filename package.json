@@ -20,21 +20,21 @@
     "react-native-web": "^0.1.14"
   },
   "devDependencies": {
-    "babel-core": "6.16.0",
-		"babel-jest": "21.2.0",
-		"babel-loader": "6.2.5",
-		"babel-polyfill": "6.16.0",
-		"babel-preset-react-native": "4.0.0",
-		"babel-preset-stage-1": "6.16.0",
-		"haste-resolver-webpack-plugin": "0.1.2",
-		"jest": "21.2.1",
-		"json-loader": "0.5.2",
-		"react-dom": "16.0.0-alpha.6",
-		"react-hot-loader": "1.2.7",
+    "babel-core": "^6.26.0",
+    "babel-jest": "21.2.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-react-native": "4.0.0",
+    "babel-preset-stage-1": "6.16.0",
+    "haste-resolver-webpack-plugin": "0.1.2",
+    "jest": "21.2.1",
+    "json-loader": "0.5.2",
+    "react-dom": "16.0.0-alpha.6",
+    "react-hot-loader": "1.2.7",
     "react-test-renderer": "16.0.0",
-		"webpack": "1.12.10",
-		"webpack-dev-server": "1.14.0",
-		"webpack-html-plugin": "0.1.1"
+    "webpack": "^3.6.0",
+    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-dev-server": "^2.9.4",
+    "webpack-html-plugin": "0.1.1"
   },
   "jest": {
     "preset": "react-native"
