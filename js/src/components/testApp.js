@@ -11,7 +11,7 @@ import {
   View
 } from 'react-native';
 import React, { Component } from 'react';
-import Loading from './common/Loading/Loading';
+import Loading from '../common/Loading/Loading';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +

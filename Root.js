@@ -1,8 +1,9 @@
 import { Text } from 'react-native';
 import React, { Component } from 'react';
-// import AppTest from './AppTest';
-import testApp from './testApp';
-import Animation from './Animation';
+// base modules
+require('underscore');
+require('./js/src/resolveInject');
+require('./js/src/modules/index.js');
 
 export default class Root extends Component {
     render(){

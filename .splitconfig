@@ -1,0 +1,19 @@
+{
+  "package": "newRNBundle",
+  "base": {
+    "index": "index.js",
+    "includes": [
+      "./js/src/modules/*"
+    ]
+  },
+  "custom": [{
+    "name": "Animation",
+    "index": "./js/src/components/Animation.js"
+  }, {
+    "name": "AppTest",
+    "index": "./js/src/components/AppTest.js"
+  }, {
+    "name": "testApp",
+    "index": "./js/src/components/testApp.js"
+  }]
+}
