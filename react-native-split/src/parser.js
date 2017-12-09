@@ -85,6 +85,8 @@ class Parser {
   _baseEntryIndexModule: number;
   _bundles: Array<SubBundle>;
   _modules: { [number] : Module };
+  _collectCustom: Array<object>;
+  _collectDependency: Array<string>;
   
   constructor(codeBlob : string, config : Config) {
     this._codeBlob = codeBlob;
@@ -98,10 +100,14 @@ class Parser {
     this._base = new Set(); // store module id of base modules
     this._customEntries = [];
     this._bundles = []; // store split codes
+    this._collectCustom = []; // store custom business for config
+    this._collectDependency = [];// store custom dependency for config
   }
   
   splitBundle() {
     const outputDir = this._config.outputDir;
+    const platform = this._config.platform;
+    const rnVersion = this._config.rnVersion;
     Util.ensureFolder(outputDir);
     const bundleAST = babylon.parse(this._codeBlob, {
       sourceType: 'script',
@@ -116,7 +122,15 @@ class Parser {
       const subBundlePath = path.resolve(outputDir, subBundle.name);
       Util.ensureFolder(subBundlePath);
       
-      const codePath = path.resolve(subBundlePath, 'index.bundle');
+      let codePath = '',
+          fileName = '';
+      if (subBundle.name == 'base'){
+        fileName = `${subBundle.name}.${rnVersion}.${platform}.bundle`;
+      }else{
+        fileName = `${subBundle.name}.${platform}.bundle`;     
+      }
+      this._collectDependency.push(fileName);
+      codePath = path.resolve(subBundlePath, fileName);
       fs.writeFileSync(codePath, code);
       console.log('[Code] Write code to ' + codePath);
       if (subBundle.assetRenames) {
@@ -129,6 +143,30 @@ class Parser {
       }
       console.log('====== Split ' + subBundle.name + ' done! ======');
     });
+    this._generateConfig(outputDir);
+  }
+  _generateConfig(outputDir) {
+    let configJSon = {};
+    let collectCustom = this._collectCustom;
+    let collectDependency = this._collectDependency;
+    let configPath = '';
+    let configBasePath = "";
+    collectDependency.forEach(function(dependencyItem, index){
+      if(dependencyItem.indexOf('base') > -1){
+        configJSon.baseBundle = dependencyItem;
+      }else{
+        collectCustom.forEach(function(customItem, key){
+          if(dependencyItem.indexOf(customItem.moduleName) > -1){
+            customItem.dependency = `${customItem.moduleName}/${dependencyItem}`
+          }
+        })
+        return collectCustom;
+      }
+    })
+    configJSon.config = collectCustom;
+    configPath = path.resolve(outputDir, 'rn.config');
+    let codeConfig = JSON.stringify(configJSon);
+    fs.writeFileSync(configPath, codeConfig);
   }
   _parseAST(bundleAST : any) {
     const program = bundleAST.program;
@@ -238,7 +276,6 @@ class Parser {
   }
   
   _genBaseModules(moduleId : number) {
-    console.log('this._modules----');
     this._base.add(moduleId);
     const module = this._modules[moduleId];
     const queue = module.dependencies;
@@ -276,7 +313,6 @@ class Parser {
     
     const module = this._modules[moduleId];
     const queue = module.dependencies;
-    console.log('_genCustomEntryModulesNameAndQuene', name, queue);
     
     if (!queue) {
       return;
@@ -284,7 +320,6 @@ class Parser {
     let added = 0;
     while(queue.length > 0) {
       const tmp = queue.shift();
-      console.log('this._base.has(tmp)', set.has('17302'), this._base.has('17302'));
       if (set.has(tmp) || this._base.has(tmp)) {
         continue;
       }
@@ -433,8 +468,14 @@ class Parser {
   
   _splitCustomEntry(entry : CustomEntry) {
     const bundleName = entry.name;
+    const bundleId = entry.moduleId;
     let codes = [];
     let assetRenames = [];
+    let customNameId = {
+      moduleName: bundleName,
+      ID: [...entry.moduleSet][0]
+    };
+    this._collectCustom.push(customNameId);
     entry.moduleSet.forEach(moduleId => {
       const module : Module = this._modules[moduleId];
       let code = this._codeBlob.substring(module.code.start, module.code.end);
@@ -448,13 +489,9 @@ class Parser {
       // code = Util.replaceModuleIdWithName(code, this._modules);
       codes.push(code);
     });
-    let jsModuleDependency = {
-      jsFileName: bundleName,
-      includeDependency: entry.moduleSet
-    };
-    let entryModuleName = this._modules[entry.moduleId].name;
-    console.log('jsModuleDependency-----', jsModuleDependency);
-    // codes.push('\nrequire(\"' + entryModuleName + '\");');
+    if (bundleName == "commonPage"){
+      codes.push('\nrequire(' + bundleId + ');');
+    }
     this._bundles.push({
       name: bundleName,
       codes,

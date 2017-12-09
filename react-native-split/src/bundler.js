@@ -53,7 +53,13 @@ function bundle(config: Config, callback: Callback) : void {
   Util.ensureFolder(config.bundleDir);
 
   const tmpBase = injectCodesToBase(config);
-  const bundlePath = path.resolve(config.bundleDir, 'index.bundle');
+  let bundlePath = '';
+  const platform = config.platform;
+  if(platform == 'android'){
+    bundlePath = path.resolve(config.bundleDir, 'index.android.bundle');
+  }else if(platform == 'ios'){
+    bundlePath = path.resolve(config.bundleDir, 'index.ios.bundle');
+  }
 
   let cmd = 'react-native bundle';
   cmd += ' --entry-file ' + tmpBase;

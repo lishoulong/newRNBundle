@@ -7,8 +7,10 @@
     "test": "jest",
     "androidBundle": "react-native bundle --platform android --dev true --entry-file index.js --bundle-output ./output/android/index.android.bundle",
     "androidUnbundle": "react-native unbundle --platform android --dev true --entry-file index.js --bundle-output ./output/android/index.android.bundle",
+    "androidSplit": "node ./build.js --platform android --output dist --config .splitconfig --dev false --rnVersion 0.50.3",
     "iosBundle": "react-native bundle --platform ios --dev true --entry-file index.js --bundle-output ./output/ios/index.ios.bundle",
     "iosUnbundle": "react-native unbundle --platform ios --dev true --entry-file index.js --bundle-output ./output/ios/index.ios.bundle",
+    "iosSplit": "node ./build.js --platform ios --output dist --config .splitconfig --dev false --rnVersion 0.50.3",
     "concatJs": "node concatJs.js",
     "webDev": "node web/start-dev-server",
     "webBundle": "NODE_ENV=production webpack --config web/webpack.config.js --colors"

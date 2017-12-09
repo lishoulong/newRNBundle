@@ -1,19 +1,16 @@
 {
   "package": "newRNBundle",
   "base": {
-    "index": "index.js",
-    "includes": [
-      "./js/src/modules/*"
-    ]
+    "index": "index.js"
   },
   "custom": [{
-    "name": "Animation",
-    "index": "./js/src/components/Animation.js"
+    "name": "ZZRNGuize",
+    "index": "./js/src/components/ZZRNGuize/ZZRNGuize.js"
   }, {
-    "name": "AppTest",
-    "index": "./js/src/components/AppTest.js"
+    "name": "ZZRNPrivacy",
+    "index": "./js/src/components/ZZRNPrivacy/ZZRNPrivacy.js"
   }, {
-    "name": "testApp",
-    "index": "./js/src/components/testApp.js"
+    "name": "commonPage",
+    "index": "./js/src/components/commonPage.js"
   }]
 }

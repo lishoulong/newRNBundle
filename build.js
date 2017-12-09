@@ -32,7 +32,8 @@ commander
   .description('React Native Bundle Spliter')
   .option('--output <path>', 'Path to store bundle.', 'build')
   .option('--config <path>', 'Config file for react-native-split.')
-  .option('--platform', 'Specify bundle platform. ', 'android')
+  .option('--platform [string]', 'Specify bundle platform. ')
+  .option('--rnVersion [string]', 'Specify RN version. ')
   .option('--dev [boolean]', 'Generate dev module.')
   .parse(process.argv);
 
@@ -59,15 +60,22 @@ if (!isFileExists(configFile)) {
 
 const rawConfig = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
 const workRoot = path.dirname(configFile);
-const outputRoot = path.join(outputDir, `bundle-output`);
+const platform = commander.platform;
+let outputRoot = '';
+if(platform == 'android'){
+  outputRoot = path.join(outputDir, `bundle-output-android`);
+}else if(platform == 'ios'){
+  outputRoot = path.join(outputDir, `bundle-output-ios`);
+}
 Util.ensureFolder(outputRoot);
 
 const config = {
   root: workRoot,
   dev: commander.dev === 'true',
+  rnVersion: commander.rnVersion,
   packageName : rawConfig['package'],
   platform : commander.platform,
-  outputDir : path.join(outputRoot, 'split'),
+  outputDir : outputRoot,
   bundleDir : path.join(outputRoot, 'bundle'),
   baseEntry : {
     index: rawConfig.base.index,
